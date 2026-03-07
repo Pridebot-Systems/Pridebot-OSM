@@ -1,0 +1,47 @@
+# Generated protobuf files
+proto.js
+proto.d.ts
+
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment configuration
+.env
+.env.local
+.env.*.local
+
+# Nix development environment
+.direnv/
+.npm-cache/
+.npm-global/
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE and editor specific files
+.vscode/
+.idea/
+package-lock.json

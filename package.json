@@ -1,0 +1,28 @@
+{
+  "name": "bot-example",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "npm run compileProto",
+    "start": "npm run build && tsx src/index.ts",
+    "dev": "npm run build && tsx --watch src/index.ts",
+    "compileProto": "node scripts/compileProto.js",
+    "clean": "rm -rf dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@tanglechat/protobufjs": "^7.5.4",
+    "ws": "^8.18.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@tanglechat/protobufjs-cli": "^1.1.5",
+    "typescript": "^5.3.0",
+    "tsx": "^4.7.0",
+    "@types/node": "^20.11.0",
+    "@types/ws": "^8.5.10"
+  }
+}
