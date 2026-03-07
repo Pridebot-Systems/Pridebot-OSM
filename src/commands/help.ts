@@ -4,7 +4,7 @@ import { commands } from "./index";
 export const help: Command = {
   name: "help",
   description:
-    "Shows a list of commands, or info about a specific command.\n If you want to talk to a developer, join the support server: https://osm.pm/i/JFfIIoNjbXK5x2D9",
+    "Shows a list of commands, or info about a specific command.",
   usage: "!help [command]",
   execute(bot, message, args) {
     if (args.length > 0) {
@@ -22,7 +22,7 @@ export const help: Command = {
     const commandList = Array.from(commands.keys()).join(", ");
     bot.reply(
       message,
-      `Available commands: ${commandList}\nUse !help <command> for more info.`,
+      `Available commands: ${commandList}\nUse !help <command> for more info. \n\nSupport server: https://osm.pm/i/JFfIIoNjbXK5x2D9\nGitHub repo: https://github.com/Pridebot-Systems/Pridebot-OSM`,
     );
   },
 };
