@@ -2,6 +2,7 @@ import EventEmitter from "node:events";
 import { Client, ClientOptions } from "./Client";
 import { tangle } from "./proto";
 import { commands } from "./commands";
+import { startServerCountUpdater } from "./Events/serverupdate";
 import dotenv from "dotenv";
 
 interface BotEvents {
@@ -100,6 +101,14 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
     const cmd = commands.get(command);
     if (cmd) {
       cmd.execute(bot, messageCreated.message, args);
+    }
+  });
+
+  bot.on("ready", () => {
+    const communityId = BigInt(process.env.STATUS_COMMUNITY_ID ?? "0");
+    const channelId = BigInt(process.env.STATUS_CHANNEL_ID ?? "0");
+    if (communityId && channelId) {
+      startServerCountUpdater(bot, communityId, channelId);
     }
   });
 
