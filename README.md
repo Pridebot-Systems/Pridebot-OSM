@@ -17,6 +17,7 @@ All commands use the `!` prefix.
 | `ping`   | Check if the bot is alive and measure latency.              | `!ping`              |
 | `gaydar` | Measures how gay someone is with a random percentage.       | `!gaydar [username]` |
 | `help`   | Shows a list of commands, or info about a specific command. | `!help [command]`    |
+| `invite` | Invite the bot to your server                               | `!invite [link]`     |
 
 ## Support
 
