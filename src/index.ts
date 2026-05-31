@@ -3,6 +3,7 @@ import { Client, ClientOptions } from "./Client";
 import { tangle } from "./proto";
 import { commands } from "./commands";
 import { startServerCountUpdater } from "./Events/serverupdate";
+import { applyGlobalRolesToUser } from "./globalSync";
 import dotenv from "dotenv";
 
 interface BotEvents {
@@ -12,6 +13,7 @@ interface BotEvents {
   disconnected: [];
 
   messageCreated: [messageUpdate: tangle.client.updates.UpdateMessageCreated];
+  communityMemberCreated: [event: tangle.client.updates.UpdateCommunityMemberCreated];
 }
 
 export class Pridebot extends EventEmitter<BotEvents> {
@@ -48,6 +50,9 @@ export class Pridebot extends EventEmitter<BotEvents> {
       if (update.messageCreated) {
         this.emit("messageCreated", update.messageCreated);
       }
+      if (update.communityMemberCreated) {
+        this.emit("communityMemberCreated", update.communityMemberCreated);
+      }
     });
   }
 
@@ -75,7 +80,7 @@ export class Pridebot extends EventEmitter<BotEvents> {
 
 import { pathToFileURL } from "node:url";
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   dotenv.config();
 
   const bot = new Pridebot({
@@ -98,10 +103,20 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
     const args = msg.split(" ").slice(1);
     console.log("Command received:", command, args);
 
-    const cmd = commands.get(command);
-    if (cmd) {
-      cmd.execute(bot, messageCreated.message, args);
+    if (command) {
+      const cmd = commands.get(command);
+      if (cmd) {
+        cmd.execute(bot, messageCreated.message, args);
+      }
     }
+  });
+
+  bot.on("communityMemberCreated", (event) => {
+    const userId = event.memberId.toString();
+    const communityId = event.communityId;
+    applyGlobalRolesToUser(bot, userId, communityId).catch((err) => {
+      console.error("Failed to apply global roles on member join:", err);
+    });
   });
 
   bot.on("ready", () => {

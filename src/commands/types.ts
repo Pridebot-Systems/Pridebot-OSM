@@ -1,4 +1,4 @@
-import type { ExampleBot } from "../index";
+import type { Pridebot } from "../index";
 import type { tangle } from "../proto";
 
 export interface Command {
@@ -6,7 +6,7 @@ export interface Command {
   description: string;
   usage: string;
   execute(
-    bot: ExampleBot,
+    bot: Pridebot,
     message: tangle.client.types.Message,
     args: string[],
   ): void;

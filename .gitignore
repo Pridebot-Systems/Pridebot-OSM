@@ -45,3 +45,8 @@ Thumbs.db
 .vscode/
 .idea/
 package-lock.json
+
+# DB files
+/src/generated/prisma
+prisma/
+dev.db

@@ -20,8 +20,6 @@ export function startServerCountUpdater(
           name: `Servers: ${count}`,
         }),
       );
-
-      console.log(`Updated server count channel: Servers: ${count}`);
     } catch (err) {
       console.error("Failed to update server count:", err);
     }
