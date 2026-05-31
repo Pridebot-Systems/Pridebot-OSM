@@ -14,6 +14,9 @@ import { roleremoveall } from "./roleremoveall";
 import { roleglobal } from "./roleglobal";
 import { rolelist } from "./rolelist";
 import { roledelete } from "./roledelete";
+import { comingout } from "./comingout";
+import { mentalhealth } from "./mentalhealth";
+import { transresources } from "./transresources";
 
 export const commands = new Map<string, Command>();
 
@@ -33,6 +36,9 @@ for (const cmd of [
   roleglobal,
   rolelist,
   roledelete,
+  comingout,
+  mentalhealth,
+  transresources,
 ]) {
   commands.set(cmd.name, cmd);
 }
