@@ -121,6 +121,8 @@ export class Client extends EventEmitter<ClientEvents> {
         const reasonStr = reason.toString();
         console.debug(`Connection closed: ${code} - ${reasonStr}`);
         this.authenticated = false;
+        this.stopHeartbeat();
+        this.rejectPendingRequests(new Error(`Connection closed: ${code}`));
         this.emit("disconnected", code, reasonStr);
         this.scheduleReconnect();
       });
@@ -267,19 +269,36 @@ export class Client extends EventEmitter<ClientEvents> {
   startHeartbeat(): void {
     this.heartbeatTimer = setInterval(() => {
       if (this.ws && this.ws.readyState === WebSocket.OPEN) {
-        // periodically send a useless message to keep the socket open
-        const uselessPacket = osmium.client.core.ClientMessage.create({
-          id: 1,
-        });
-        const encoded =
-          osmium.client.core.ClientMessage.encode(uselessPacket).finish();
-        const buffer = encoded.buffer.slice(
-          encoded.byteOffset,
-          encoded.byteOffset + encoded.length,
+        this.ws.ping();
+        // Send an empty application-level message so the server's idle timeout
+        // doesn't trigger (id: 1 is below the Date.now()-based range used for
+        // real requests, so it will never collide with a pending request).
+        const keepalive = osmium.client.core.ClientMessage.encode(
+          osmium.client.core.ClientMessage.create({ id: 1 }),
+        ).finish();
+        this.ws.send(
+          keepalive.buffer.slice(
+            keepalive.byteOffset,
+            keepalive.byteOffset + keepalive.length,
+          ),
         );
-        this.ws?.send(buffer);
       }
     }, this.options.heartbeatInterval);
+  }
+
+  stopHeartbeat(): void {
+    if (this.heartbeatTimer) {
+      clearInterval(this.heartbeatTimer);
+      this.heartbeatTimer = null;
+    }
+  }
+
+  rejectPendingRequests(error: Error): void {
+    for (const request of this.pendingRequests.values()) {
+      if (request.timeoutId) clearTimeout(request.timeoutId);
+      request.reject(error as any);
+    }
+    this.pendingRequests.clear();
   }
 
   scheduleReconnect(): void {
