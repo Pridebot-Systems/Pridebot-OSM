@@ -1,4 +1,4 @@
-import type { Command } from "./types";
+import type { Command } from "../types";
 
 export const mentalhealth: Command = {
   name: "mentalhealth",

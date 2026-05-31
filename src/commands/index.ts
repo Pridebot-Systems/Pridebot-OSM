@@ -1,34 +1,34 @@
 import type { Command } from "./types";
-import { ping } from "./ping";
-import { gaydar } from "./gaydar";
-import { bidar } from "./bidar";
-import { lesdar } from "./lesdar";
-import { transdar } from "./transdar";
-import { queerdar } from "./queerdar";
-import { help } from "./help";
-import { invite } from "./invite";
-import { rolesetup } from "./rolesetup";
-import { rolegive } from "./rolegive";
-import { roleremove } from "./roleremove";
-import { roleremoveall } from "./roleremoveall";
-import { roleglobal } from "./roleglobal";
-import { rolelist } from "./rolelist";
-import { roledelete } from "./roledelete";
-import { comingout } from "./comingout";
-import { mentalhealth } from "./mentalhealth";
-import { transresources } from "./transresources";
+import { ping } from "./tools/ping";
+import { help } from "./tools/help";
+import { invite } from "./tools/invite";
+import { gaydar } from "./fun/gaydar";
+import { bidar } from "./fun/bidar";
+import { lesdar } from "./fun/lesdar";
+import { transdar } from "./fun/transdar";
+import { queerdar } from "./fun/queerdar";
+import { rolesetup } from "./roles/rolesetup";
+import { rolegive } from "./roles/rolegive";
+import { roleremove } from "./roles/roleremove";
+import { roleremoveall } from "./roles/roleremoveall";
+import { roleglobal } from "./roles/roleglobal";
+import { rolelist } from "./roles/rolelist";
+import { roledelete } from "./roles/roledelete";
+import { comingout } from "./support/comingout";
+import { mentalhealth } from "./support/mentalhealth";
+import { transresources } from "./support/transresources";
 
 export const commands = new Map<string, Command>();
 
 for (const cmd of [
   ping,
+  help,
+  invite,
   gaydar,
   bidar,
   lesdar,
   transdar,
   queerdar,
-  help,
-  invite,
   rolesetup,
   rolegive,
   roleremove,

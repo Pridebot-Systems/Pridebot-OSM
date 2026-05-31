@@ -1,4 +1,4 @@
-import type { Command } from "./types";
+import type { Command } from "../types";
 
 export const comingout: Command = {
   name: "comingout",

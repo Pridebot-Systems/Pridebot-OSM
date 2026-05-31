@@ -1,4 +1,4 @@
-import type { Command } from "./types";
+import type { Command } from "../types";
 
 export const transdar: Command = {
   name: "transdar",

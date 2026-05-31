@@ -1,6 +1,6 @@
-import type { Command } from "./types";
-import { osmium } from "../proto";
-import { prisma } from "../db";
+import type { Command } from "../types";
+import { osmium } from "../../proto";
+import { prisma } from "../../db";
 import { syncRoleGlobally } from "./rolegive";
 
 export const roleremoveall: Command = {

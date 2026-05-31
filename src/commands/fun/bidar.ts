@@ -1,9 +1,9 @@
-import type { Command } from "./types";
+import type { Command } from "../types";
 
-export const queerdar: Command = {
-  name: "queerdar",
-  description: "Measures how queer someone is with a random percentage.",
-  usage: "!queerdar [username]",
+export const bidar: Command = {
+  name: "bidar",
+  description: "Measures how bi someone is with a random percentage.",
+  usage: "!bidar [username]",
   execute(bot, message, args) {
     const isInsane = Math.random() < 1 / 10000;
     const percentage = isInsane
@@ -16,6 +16,6 @@ export const queerdar: Command = {
         ? "You"
         : `@${mention}`;
     const verb = target === "You" ? "are" : "is";
-    bot.reply(message, `${target} ${verb} ${percentage}% queer`);
+    bot.reply(message, `${target} ${verb} ${percentage}% bi`);
   },
 };

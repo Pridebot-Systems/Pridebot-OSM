@@ -1,9 +1,9 @@
-import type { Command } from "./types";
+import type { Command } from "../types";
 
-export const lesdar: Command = {
-  name: "lesdar",
-  description: "Measures how lesbian someone is with a random percentage.",
-  usage: "!lesdar [username]",
+export const gaydar: Command = {
+  name: "gaydar",
+  description: "Measures how gay someone is with a random percentage.",
+  usage: "!gaydar [username]",
   execute(bot, message, args) {
     const isInsane = Math.random() < 1 / 10000;
     const percentage = isInsane
@@ -16,6 +16,9 @@ export const lesdar: Command = {
         ? "You"
         : `@${mention}`;
     const verb = target === "You" ? "are" : "is";
-    bot.reply(message, `${target} ${verb} ${percentage}% lesbian`);
+    const reply = isInsane
+      ? `${target} ${verb} ${percentage}% gay`
+      : `${target} ${verb} ${percentage}% gay`;
+    bot.reply(message, reply);
   },
 };
