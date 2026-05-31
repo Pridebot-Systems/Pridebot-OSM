@@ -1,16 +1,16 @@
 import WebSocket from "ws";
 import { EventEmitter } from "events";
-import { tangle } from "./proto.js";
+import { osmium } from "./proto.js";
 
 interface ClientEvents {
   connected: [];
   disconnected: [code: number, reason: string];
   error: [error: Error];
-  message: [message: tangle.client.core.ServerMessage];
-  result: [result: tangle.client.core.RPCResult];
-  update: [update: tangle.client.updates.Update];
-  initialized: [initialized: tangle.client.core.Initialized];
-  ready: [user: tangle.client.types.User];
+  message: [message: osmium.client.core.ServerMessage];
+  result: [result: osmium.client.core.RPCResult];
+  update: [update: osmium.client.updates.Update];
+  initialized: [initialized: osmium.client.core.Initialized];
+  ready: [user: osmium.client.types.User];
   authError: [error: Error];
 }
 
@@ -29,7 +29,7 @@ export type ClientOptions = {
 };
 
 type Message = Exclude<
-  tangle.client.core.ClientMessage[keyof tangle.client.core.ClientMessage],
+  osmium.client.core.ClientMessage[keyof osmium.client.core.ClientMessage],
   | string
   | null
   | undefined
@@ -50,13 +50,13 @@ export class Client extends EventEmitter<ClientEvents> {
   pendingRequests: Map<
     number,
     {
-      resolve: (value: tangle.client.core.RPCResult) => void;
-      reject: (error: tangle.client.core.RPCError) => void;
+      resolve: (value: osmium.client.core.RPCResult) => void;
+      reject: (error: osmium.client.core.RPCError) => void;
       timeoutId?: NodeJS.Timeout;
     }
   >;
 
-  user: tangle.client.types.User | null;
+  user: osmium.client.types.User | null;
   chats: Map<string, any>;
   communities: Map<string, any>;
 
@@ -150,15 +150,15 @@ export class Client extends EventEmitter<ClientEvents> {
       namespace.charAt(0).toLowerCase() + namespace.slice(1) + name;
     const obj = this.makeClientMessage(reqId, packetName, message);
 
-    const encoded = tangle.client.core.ClientMessage.encode(obj).finish();
+    const encoded = osmium.client.core.ClientMessage.encode(obj).finish();
     const buf = encoded.buffer.slice(
       encoded.byteOffset,
       encoded.byteOffset + encoded.length,
     );
 
-    let resolve: (value: tangle.client.core.RPCResult) => void = () => {},
-      reject: (error: tangle.client.core.RPCError) => void = () => {};
-    const promise = new Promise<tangle.client.core.RPCResult>((res, rej) => {
+    let resolve: (value: osmium.client.core.RPCResult) => void = () => {},
+      reject: (error: osmium.client.core.RPCError) => void = () => {};
+    const promise = new Promise<osmium.client.core.RPCResult>((res, rej) => {
       resolve = res;
       reject = rej;
     });
@@ -171,7 +171,7 @@ export class Client extends EventEmitter<ClientEvents> {
   }
 
   makeClientMessage(reqId: number, packetName: string, packet: any): any {
-    const obj = tangle.client.core.ClientMessage.create({
+    const obj = osmium.client.core.ClientMessage.create({
       id: reqId,
       [packetName]: packet,
     });
@@ -179,7 +179,7 @@ export class Client extends EventEmitter<ClientEvents> {
   }
 
   async initialize() {
-    const message = tangle.client.core.Initialize.create({
+    const message = osmium.client.core.Initialize.create({
       ...this.options.clientOptions,
     });
 
@@ -191,12 +191,12 @@ export class Client extends EventEmitter<ClientEvents> {
     }
   }
 
-  async authenticate(): Promise<tangle.client.auth.Authorization> {
+  async authenticate(): Promise<osmium.client.auth.Authorization> {
     if (!this.options.token) {
       throw new Error("Bot token is required for authentication");
     }
 
-    const message = tangle.client.auth.Authorize.create({
+    const message = osmium.client.auth.Authorize.create({
       token: this.options.token,
     });
 
@@ -210,7 +210,7 @@ export class Client extends EventEmitter<ClientEvents> {
 
   handleMessage(data: Uint8Array): void {
     try {
-      const serverMessage = tangle.client.core.ServerMessage.decode(data);
+      const serverMessage = osmium.client.core.ServerMessage.decode(data);
       this.emit("message", serverMessage);
 
       if (serverMessage.result) {
@@ -243,14 +243,14 @@ export class Client extends EventEmitter<ClientEvents> {
     }
   }
 
-  handleAuthenticated(signedIn: tangle.client.auth.Authorization): void {
+  handleAuthenticated(signedIn: osmium.client.auth.Authorization): void {
     this.authenticated = true;
     this.user = signedIn.user;
     this.emit("ready", this.user);
     this.startHeartbeat();
   }
 
-  handleInitialized(initialized: tangle.client.core.Initialized): void {
+  handleInitialized(initialized: osmium.client.core.Initialized): void {
     this.emit("initialized", initialized);
 
     if (this.options.token) {
@@ -268,11 +268,11 @@ export class Client extends EventEmitter<ClientEvents> {
     this.heartbeatTimer = setInterval(() => {
       if (this.ws && this.ws.readyState === WebSocket.OPEN) {
         // periodically send a useless message to keep the socket open
-        const uselessPacket = tangle.client.core.ClientMessage.create({
+        const uselessPacket = osmium.client.core.ClientMessage.create({
           id: 1,
         });
         const encoded =
-          tangle.client.core.ClientMessage.encode(uselessPacket).finish();
+          osmium.client.core.ClientMessage.encode(uselessPacket).finish();
         const buffer = encoded.buffer.slice(
           encoded.byteOffset,
           encoded.byteOffset + encoded.length,

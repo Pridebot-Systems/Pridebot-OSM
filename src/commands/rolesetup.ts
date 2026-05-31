@@ -1,5 +1,5 @@
 import type { Command } from "./types";
-import { tangle } from "../proto";
+import { osmium } from "../proto";
 import { prisma } from "../db";
 import { ROLE_DEFINITIONS, type RoleCategory } from "./roles";
 import { applyGlobalRolesToNewServer } from "../globalSync";
@@ -70,7 +70,7 @@ export const rolesetup: Command = {
     let nextPriority = 1;
     try {
       const existing = await bot.client.send(
-        tangle.client.communities.GetRoles.create({ communityId }),
+        osmium.client.communities.GetRoles.create({ communityId }),
       );
       const roles = existing.communityRoles?.roles ?? [];
       if (roles.length > 0) {
@@ -86,7 +86,7 @@ export const rolesetup: Command = {
       for (const roleName of roleNames) {
         try {
           await bot.client.send(
-            tangle.client.communities.CreateRole.create({
+            osmium.client.communities.CreateRole.create({
               communityId: communityId,
               name: roleName,
               permissions: BigInt(0),
@@ -105,7 +105,7 @@ export const rolesetup: Command = {
     // Fetch all roles from the server to get their IDs
     try {
       const rolesResult = await bot.client.send(
-        tangle.client.communities.GetRoles.create({ communityId }),
+        osmium.client.communities.GetRoles.create({ communityId }),
       );
 
       const serverRoles = rolesResult.communityRoles?.roles ?? [];

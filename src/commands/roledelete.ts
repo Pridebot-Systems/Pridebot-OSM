@@ -1,5 +1,5 @@
 import type { Command } from "./types";
-import { tangle } from "../proto";
+import { osmium } from "../proto";
 import { prisma } from "../db";
 
 export const roledelete: Command = {
@@ -36,7 +36,7 @@ export const roledelete: Command = {
     for (const role of guildRoles) {
       try {
         await bot.client.send(
-          tangle.client.communities.DeleteRole.create({
+          osmium.client.communities.DeleteRole.create({
             id: BigInt(role.roleId),
             communityId: communityId,
           }),

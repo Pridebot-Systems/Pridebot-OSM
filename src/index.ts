@@ -1,6 +1,6 @@
 import EventEmitter from "node:events";
 import { Client, ClientOptions } from "./Client";
-import { tangle } from "./proto";
+import { osmium } from "./proto";
 import { commands } from "./commands";
 import { startServerCountUpdater } from "./Events/serverupdate";
 import { applyGlobalRolesToUser } from "./globalSync";
@@ -8,12 +8,12 @@ import dotenv from "dotenv";
 
 interface BotEvents {
   connected: [];
-  ready: [user: tangle.client.types.User];
+  ready: [user: osmium.client.types.User];
   error: [error: Error];
   disconnected: [];
 
-  messageCreated: [messageUpdate: tangle.client.updates.UpdateMessageCreated];
-  communityMemberCreated: [event: tangle.client.updates.UpdateCommunityMemberCreated];
+  messageCreated: [messageUpdate: osmium.client.updates.UpdateMessageCreated];
+  communityMemberCreated: [event: osmium.client.updates.UpdateCommunityMemberCreated];
 }
 
 export class Pridebot extends EventEmitter<BotEvents> {
@@ -57,10 +57,10 @@ export class Pridebot extends EventEmitter<BotEvents> {
   }
 
   async reply(
-    message: tangle.client.types.Message,
+    message: osmium.client.types.Message,
     content: string,
-  ): Promise<tangle.client.core.RPCResult> {
-    const msg = tangle.client.messages.SendMessage.create({
+  ): Promise<osmium.client.core.RPCResult> {
+    const msg = osmium.client.messages.SendMessage.create({
       message: content,
       chatRef: message.chatRef,
     });

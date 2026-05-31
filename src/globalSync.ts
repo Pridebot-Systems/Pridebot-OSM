@@ -1,5 +1,5 @@
 import { prisma } from "./db";
-import { tangle } from "./proto";
+import { osmium } from "./proto";
 
 /**
  * Core helper: finds roles a user holds in other communities and assigns any
@@ -52,10 +52,10 @@ async function syncUserRolesInCommunity(
   ];
 
   await bot.client.send(
-    tangle.client.communities.EditMember.create({
+    osmium.client.communities.EditMember.create({
       communityId,
       memberId: BigInt(userId),
-      roleIds: tangle.client.communities.CommunityMemberRoleIds.create({
+      roleIds: osmium.client.communities.CommunityMemberRoleIds.create({
         roleIds: allRoleIds,
       }),
     }),

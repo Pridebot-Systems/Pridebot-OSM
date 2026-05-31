@@ -1,5 +1,5 @@
 import type { Command } from "./types";
-import { tangle } from "../proto";
+import { osmium } from "../proto";
 import { prisma } from "../db";
 import { syncRoleGlobally } from "./rolegive";
 
@@ -45,10 +45,10 @@ export const roleremoveall: Command = {
 
     try {
       await bot.client.send(
-        tangle.client.communities.EditMember.create({
+        osmium.client.communities.EditMember.create({
           communityId,
           memberId: userId,
-          roleIds: tangle.client.communities.CommunityMemberRoleIds.create({
+          roleIds: osmium.client.communities.CommunityMemberRoleIds.create({
             roleIds: remainingRoleIds,
           }),
         }),

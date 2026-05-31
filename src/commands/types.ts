@@ -1,5 +1,5 @@
 import type { Pridebot } from "../index";
-import type { tangle } from "../proto";
+import type { osmium } from "../proto";
 
 export interface Command {
   name: string;
@@ -7,7 +7,7 @@ export interface Command {
   usage: string;
   execute(
     bot: Pridebot,
-    message: tangle.client.types.Message,
+    message: osmium.client.types.Message,
     args: string[],
   ): void;
 }
