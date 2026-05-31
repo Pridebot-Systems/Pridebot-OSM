@@ -1,6 +1,10 @@
 import type { Command } from "./types";
 import { ping } from "./ping";
 import { gaydar } from "./gaydar";
+import { bidar } from "./bidar";
+import { lesdar } from "./lesdar";
+import { transdar } from "./transdar";
+import { queerdar } from "./queerdar";
 import { help } from "./help";
 import { invite } from "./invite";
 import { rolesetup } from "./rolesetup";
@@ -16,6 +20,10 @@ export const commands = new Map<string, Command>();
 for (const cmd of [
   ping,
   gaydar,
+  bidar,
+  lesdar,
+  transdar,
+  queerdar,
   help,
   invite,
   rolesetup,
