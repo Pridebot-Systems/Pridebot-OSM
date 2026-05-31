@@ -6,6 +6,7 @@ const HELP_TEXT = [
   "",
   "Fun",
   "  !gaydar  !bidar  !lesdar  !transdar  !queerdar",
+  "  !match  !nametester  !pronountester",
   "",
   "Roles",
   "  !rolesetup  !rolegive  !roleremove  !roleremoveall",

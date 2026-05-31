@@ -7,6 +7,9 @@ import { bidar } from "./fun/bidar";
 import { lesdar } from "./fun/lesdar";
 import { transdar } from "./fun/transdar";
 import { queerdar } from "./fun/queerdar";
+import { match } from "./fun/match";
+import { nametester } from "./fun/nametester";
+import { pronountester } from "./fun/pronountester";
 import { rolesetup } from "./roles/rolesetup";
 import { rolegive } from "./roles/rolegive";
 import { roleremove } from "./roles/roleremove";
@@ -29,6 +32,9 @@ for (const cmd of [
   lesdar,
   transdar,
   queerdar,
+  match,
+  nametester,
+  pronountester,
   rolesetup,
   rolegive,
   roleremove,
