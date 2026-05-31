@@ -67,6 +67,19 @@ export class Pridebot extends EventEmitter<BotEvents> {
     return await this.client.send(msg);
   }
 
+  async editMessage(
+    message: osmium.client.types.Message,
+    messageId: bigint,
+    content: string,
+  ): Promise<osmium.client.core.RPCResult> {
+    const msg = osmium.client.messages.EditMessage.create({
+      chatRef: message.chatRef,
+      messageId,
+      message: content,
+    });
+    return await this.client.send(msg);
+  }
+
   async start(): Promise<void> {
     console.log("Starting bot...");
     await this.client.connect();

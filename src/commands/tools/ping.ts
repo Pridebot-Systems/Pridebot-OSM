@@ -6,8 +6,11 @@ export const ping: Command = {
   usage: "!ping",
   async execute(bot, message) {
     const start = Date.now();
-    await bot.reply(message, "Pong!");
+    const result = await bot.reply(message, "Pong!");
     const latency = Date.now() - start;
-    await bot.reply(message, `Latency: ${latency}ms`);
+    const messageId = result.sentMessage?.messageId;
+    if (messageId) {
+      await bot.editMessage(message, messageId, `Latency: ${latency}ms`);
+    }
   },
 };
